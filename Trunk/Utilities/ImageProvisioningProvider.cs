@@ -255,9 +255,10 @@ namespace NotesFor.HtmlToOpenXml
 				{
 					try
 					{
-						// Image format not recognized, try with .Net drawing API
-						using (Image bitmap = Bitmap.FromStream(imageStream))
-                            return bitmap.Size;
+                        // Image format not recognized, try with .Net drawing API
+                        //using (Image bitmap = Bitmap.FromStream(imageStream))
+                        //                      return bitmap.Size;
+                        return Size.Empty;
 					}
 					catch (ArgumentException)
 					{
@@ -266,6 +267,7 @@ namespace NotesFor.HtmlToOpenXml
 					}
 				}
 			}
+            return Size.Empty;
 		}
 
 		#endregion

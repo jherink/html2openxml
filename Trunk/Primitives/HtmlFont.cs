@@ -25,13 +25,21 @@ namespace NotesFor.HtmlToOpenXml
 
 		private FontStyle style;
 		private FontVariant variant;
-		private FontFamily family;
+#if NETSTANDARD2_0 // could save a directive by making "Family" pure { get; set; }
+        private string family;
+#else
+        private FontFamily family;
+#endif
 		private FontWeight weight;
 		private Unit size;
 
 
-		public HtmlFont(FontStyle style, FontVariant variant, FontWeight weight, Unit size, FontFamily family)
-		{
+#if NETSTANDARD2_0
+        public HtmlFont( FontStyle style, FontVariant variant, FontWeight weight, Unit size, string family )
+#else
+        public HtmlFont(FontStyle style, FontVariant variant, FontWeight weight, Unit size, FontFamily family)
+#endif
+        {
 			this.style = style;
 			this.variant = variant;
 			this.family = family;
@@ -95,13 +103,17 @@ namespace NotesFor.HtmlToOpenXml
 			return size; // % and ratio font-size/line-height are not supported
 		}
 
-		//____________________________________________________________________
-		//
+        //____________________________________________________________________
+        //
 
-		/// <summary>
-		/// Gets or sets the name of this font.
-		/// </summary>
-		public FontFamily Family
+        /// <summary>
+        /// Gets or sets the name of this font.
+        /// </summary>
+#if NETSTANDARD2_0
+        public string Family
+#else
+        public FontFamily Family
+#endif
 		{
 			get { return family; }
 			set { family = value; }

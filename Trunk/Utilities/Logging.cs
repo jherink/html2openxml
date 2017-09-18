@@ -78,7 +78,14 @@ namespace NotesFor.HtmlToOpenXml
 				traceSource = new TraceSource(TraceSourceName);
 				enabled = traceSource.Switch.Level != SourceLevels.Off;
 			}
-			catch (System.Configuration.ConfigurationException)
+#if NETSTANDARD2_0
+            /* I think this may be unavoidable because .netcore/.netstandard
+             * will not support Configuration Manager see here:
+             * https://github.com/dotnet/standard/issues/425 */
+            catch (Exception)
+#else
+            catch ( System.Configuration.ConfigurationException)
+#endif
 			{
 				// app.config has an error
 				enabled = false;
@@ -92,9 +99,9 @@ namespace NotesFor.HtmlToOpenXml
 			}
 		}
 
-		#endregion
+#endregion
 
-		#region PrintLine
+#region PrintLine
 
 		/// <summary>
 		/// Core method to write in the log.
@@ -107,9 +114,9 @@ namespace NotesFor.HtmlToOpenXml
 			traceSource.TraceEvent(eventType, id, string.Concat(str, msg));
 		}
 
-		#endregion
+#endregion
 
-		#region OnDomainUnload
+#region OnDomainUnload
 
 		/// <summary>
 		/// Event handler to close properly the trace source when the program is shut down.
@@ -120,9 +127,9 @@ namespace NotesFor.HtmlToOpenXml
 			enabled = false;
 		}
 
-		#endregion
+#endregion
 
-		#region ValidateSettings
+#region ValidateSettings
 
 		/// <summary>
 		/// Ensure the type of event should be traced, regarding the configuration.
@@ -137,7 +144,7 @@ namespace NotesFor.HtmlToOpenXml
 			return true;
 		}
 
-		#endregion
+#endregion
 
 		//____________________________________________________________________
 		//

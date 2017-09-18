@@ -66,10 +66,11 @@ namespace NotesFor.HtmlToOpenXml
             {
                 //do it the old fashioned way
 
-                using (Bitmap b = new Bitmap(path))
-                {
-                    return b.Size;
-                }              
+                //using (Bitmap b = new Bitmap(path))
+                //{
+                //    return b.Size;
+                //}             
+                return Size.Empty;
             }
         }
 

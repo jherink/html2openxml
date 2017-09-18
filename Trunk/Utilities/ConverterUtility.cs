@@ -147,11 +147,15 @@ namespace NotesFor.HtmlToOpenXml
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region ConvertToFontFamily
+#region ConvertToFontFamily
 
-		public static System.Drawing.FontFamily ConvertToFontFamily(string str)
+#if NETSTANDARD2_0
+        public static string ConvertToFontFamily(string str)
+#else
+        public static System.Drawing.FontFamily ConvertToFontFamily(string str)
+#endif
 		{
 			String[] names = str.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 			for (int i = 0; i < names.Length; i++)
@@ -160,8 +164,12 @@ namespace NotesFor.HtmlToOpenXml
 				try
 				{
                     if (fontName[0] == '\'' && fontName[fontName.Length-1] == '\'') fontName = fontName.Substring(1, fontName.Length - 2);
-					return new System.Drawing.FontFamily(fontName);
-				}
+#if NETSTANDARD2_0
+                    return fontName;
+#else
+                    return new System.Drawing.FontFamily(fontName);
+#endif
+                }
 				catch (ArgumentException)
 				{
 					// the name is not a TrueType font or is not a font installed on this computer
@@ -171,9 +179,9 @@ namespace NotesFor.HtmlToOpenXml
 			return null;
 		}
 
-		#endregion
+#endregion
 
-		#region ConvertToForeColor
+#region ConvertToForeColor
 
 		public static System.Drawing.Color ConvertToForeColor(string htmlColor)
 		{
@@ -216,12 +224,12 @@ namespace NotesFor.HtmlToOpenXml
                     {
                         // If the conversion failed, that should be a named color
                         // Let the framework dealing with it
-                        color = System.Drawing.ColorTranslator.FromHtml(htmlColor);
+                        //color = System.Drawing.ColorTranslator.FromHtml(htmlColor);
                     }
                 }
                 else
                 {
-                    color = System.Drawing.ColorTranslator.FromHtml(htmlColor);
+                    //color = System.Drawing.ColorTranslator.FromHtml(htmlColor);
                 }
             }
             catch (Exception exc)
@@ -234,9 +242,9 @@ namespace NotesFor.HtmlToOpenXml
 			return color;
 		}
 
-		#endregion
+#endregion
 
-		#region ConvertToBorderStyle
+#region ConvertToBorderStyle
 
 		public static BorderValues ConvertToBorderStyle(string borderStyle)
 		{
@@ -254,9 +262,9 @@ namespace NotesFor.HtmlToOpenXml
 			}
 		}
 
-		#endregion
+#endregion
 
-		#region ConvertToUnitMetric
+#region ConvertToUnitMetric
 
 		public static UnitMetric ConvertToUnitMetric(String type)
 		{
@@ -276,9 +284,9 @@ namespace NotesFor.HtmlToOpenXml
 			}
 		}
 
-		#endregion
+#endregion
 
-		#region ConvertToPageOrientation
+#region ConvertToPageOrientation
 
 		public static PageOrientationValues ConvertToPageOrientation(String orientation)
 		{
@@ -288,7 +296,7 @@ namespace NotesFor.HtmlToOpenXml
 			return PageOrientationValues.Portrait;
 		}
 
-		#endregion
+#endregion
 
 		//____________________________________________________________________
 		//
@@ -299,7 +307,7 @@ namespace NotesFor.HtmlToOpenXml
          '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
 
-		#region Color ToHexString
+#region Color ToHexString
 
 		/// <summary>
 		/// Convert a .Net Color to a hex string.
@@ -322,6 +330,6 @@ namespace NotesFor.HtmlToOpenXml
 			return new string(chars);
 		}
 
-		#endregion
+#endregion
 	}
 }

@@ -113,9 +113,13 @@ namespace NotesFor.HtmlToOpenXml
 					styleAttributes.Add(new SmallCaps());
 
 				if (font.Family != null)
-					styleAttributes.Add(new RunFonts() { Ascii = font.Family.Name, HighAnsi = font.Family.Name });
+#if NETSTANDARD2_0
+                    styleAttributes.Add( new RunFonts() { Ascii = font.Family, HighAnsi = font.Family } );
+#else
+                    styleAttributes.Add(new RunFonts() { Ascii = font.Family.Name, HighAnsi = font.Family.Name });
+#endif
 
-				// size are half-point font size
+                // size are half-point font size
                 if (font.Size.IsFixed)
 					styleAttributes.Add(new FontSize() { Val = (font.Size.ValueInPoint * 2).ToString(CultureInfo.InvariantCulture) });
 			}
